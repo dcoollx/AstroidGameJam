@@ -8,15 +8,15 @@ const gameOptions = {
 console.log('setting up canvas')
 canvas.height = gameOptions.height;
 canvas.width = gameOptions.width;
-canvas.style.backgroundImage = 'url(./assets/background.jpg)'
+document.body.style.backgroundImage = 'url(./assets/background.jpg)'
 const gameObjects = [];
 
 
 class dynamicObject{
     constructor(x=0, y=0, vx = 0, vy=0){
         this.maxSpeed = gameOptions.maxSpeed
-        this.x = 0;
-        this.y = 0;
+        this.x = x;
+        this.y = y;
         this.vy = vy;
         this.vx = vx;
         gameObjects.push(this)
@@ -52,10 +52,28 @@ class ship extends dynamicObject{
     constructor(x=0, y=0, vx = 0, vy=0){
         super(x,y,vx,vy);
         this.rotation = 0;
+        this.rv = 0
         console.log('player ready')
+        window.addEventListener('keydown',(e)=>{
+            if(e.code === 'a')
+                this.rv += -10
+            else if(e.code === 'd')
+                this.rv += 10
+            if(e.code === 'w'){
+                //move foward relative to rotation
+            }else if( e.code ==='d'){
+                //move backwards
+            }
+            if(e.code === 'space'){
+                this.fire();
+            }
+        });
+    }
+    fire(){
+        console.log('pew');
     }
     draw(){
-        pen.drawImage(this.sprite, this.x, this.y, gameObjects.width/10, gameObjects.height/10)
+        pen.drawImage(this.sprite, this.x, this.y, gameOptions.width/10, gameOptions.height/10)
     }
 
 }
@@ -79,13 +97,13 @@ class astroid extends dynamicObject{
 function load(img){
     const sprite = document.createElement('img');
     sprite.src = img;
-    console.log('sprite', sprite)
     return sprite;
 
 }
 
 function setup(numberOfAstroids = 5){
     const player = new ship(gameOptions.width/2, gameOptions.height/2);
+    console.log('player', player)
     player.setSprite(load('./assets/spaceship.svg'))
     const astroidSprite = load('./assets/astroid512x711.png')
     for(let x = 0; x<= numberOfAstroids; x++){
@@ -94,7 +112,7 @@ function setup(numberOfAstroids = 5){
         A.setSprite(astroidSprite)
         A.x = Math.random() * gameOptions.width
         A.y = Math.random() * gameOptions.height
-        A.vx = A.vy = Math.random() *10 + 10        
+        A.vx = A.vy = Math.random()         
     }
 }
 
