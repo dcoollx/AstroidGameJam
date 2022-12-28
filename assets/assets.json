@@ -1,0 +1,13 @@
+{
+    "audio":{
+        "theme": "am_i_nzxtinst.mp3"
+    },
+    "sprites":{
+        "spaceship.svg":{
+            "tile":512,
+            "tileh":711,
+            "map":{"ship":[0,0]}
+        }
+        
+    }
+}
